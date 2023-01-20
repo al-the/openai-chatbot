@@ -129,7 +129,7 @@ form.addEventListener("submit", async (e) => {
       },
       body: JSON.stringify({
         prompt: data.get("prompt"),
-        language: 'javascript, html, css, rust, python'
+        
       }),
     });
     if (response.ok) {
