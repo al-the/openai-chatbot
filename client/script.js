@@ -93,6 +93,7 @@ const handleSubmit = async (e) => {
         },
         body: JSON.stringify({
             prompt: data.get('prompt')
+            
         })
     })
 
@@ -121,28 +122,31 @@ form.addEventListener('keyup', (e) => {
 
 //add syntax highlighting
 form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const data = new FormData(form);
-  const response = await fetch("https://chatbox-lh9s.onrender.com", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt: data.get("prompt"),
-    }),
-  });
-  if (response.ok) {
-    const data = await response.json();
-    const codeContainer = document.createElement("pre");
-    const codeElement = document.createElement("code");
-    codeElement.textContent = data.bot;
-    codeElement.classList.add(data.language);
-    codeContainer.appendChild(codeElement);
-    chatContainer.appendChild(codeContainer);
-    Prism.highlightElement(codeElement);
-  } else {
-    const err = await response.text();
-    alert(err);
-  }
+    e.preventDefault();
+    const data = new FormData(form);
+    const response = await fetch("https://chatbox-lh9s.onrender.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: data.get("prompt"),
+      }),
+    });
+
+    if (response.ok) {
+        const { code, language } = await response.json();
+
+        const pre = document.createElement("pre");
+        const codeElement = document.createElement("code");
+        codeElement.classList.add(`language-${language}`);
+        codeElement.textContent = code;
+        pre.appendChild(codeElement);
+        chatContainer.appendChild(pre);
+
+        Prism.highlightElement(codeElement);
+    } else {
+        const error = await response.text();
+        alert(error);
+    }
 });
