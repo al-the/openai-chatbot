@@ -118,3 +118,8 @@ form.addEventListener('keyup', (e) => {
         handleSubmit(e)
     }
 })
+
+// Apply syntax highlighting to all code elements
+document.querySelectorAll('code').forEach(block => {
+    Prism.highlightElement(block);
+});
