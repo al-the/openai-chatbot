@@ -3,7 +3,6 @@ import user from './assets/user.svg'
 
 const form = document.querySelector('form')
 const chatContainer = document.querySelector('#chat_container')
-const codeContainer = document.querySelector('#code_container')
 
 let loadInterval
 
@@ -87,16 +86,6 @@ const handleSubmit = async (e) => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    // get the code-container
-    let codeContainer = document.getElementById("code-container")
-    
-    // update the content of code-container
-    codeContainer.textContent = parsedData
-    
-    // highlight the code in code-container
-    Prism.highlightElement(codeContainer)
-    
-   
     const response = await fetch('https://chatbox-lh9s.onrender.com', {
         method: 'POST',
         headers: {
