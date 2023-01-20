@@ -76,7 +76,7 @@ const handleSubmit = async (e) => {
     // bot's chatstripe
     const uniqueId = generateUniqueId()
     chatContainer.innerHTML += chatStripe(true, " ", uniqueId)
-
+    
     // to focus scroll to the bottom 
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
@@ -118,3 +118,31 @@ form.addEventListener('keyup', (e) => {
         handleSubmit(e)
     }
 })
+
+//add syntax highlighting
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  const response = await fetch("https://chatbox-lh9s.onrender.com", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: data.get("prompt"),
+    }),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    const codeContainer = document.createElement("pre");
+    const codeElement = document.createElement("code");
+    codeElement.textContent = data.bot;
+    codeElement.classList.add(data.language);
+    codeContainer.appendChild(codeElement);
+    chatContainer.appendChild(codeContainer);
+    Prism.highlightElement(codeElement);
+  } else {
+    const err = await response.text();
+    alert(err);
+  }
+});
