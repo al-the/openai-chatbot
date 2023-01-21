@@ -1,4 +1,3 @@
-import Prism from './prism.js'; // Import Prism.js
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 
@@ -111,6 +110,7 @@ const handleSubmit = async (e) => {
         if(model === "text-davinci-003"){
             typeText(messageDiv, parsedData)
         }else if(model === "code-davinci-002"){
+            language = req.body.language;
             messageDiv.innerHTML = `<pre><code class="language-${language}">${parsedData}</code></pre>`;
             Prism.highlightElement(messageDiv.querySelector('code')); // Highlight the received code using Prism.js
         }
