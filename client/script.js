@@ -76,7 +76,7 @@ function chatStripe(isAi, value, uniqueId) {
 
 const handleSubmit = async (e) => {
     e.preventDefault()
-    const sessionId = getSessionId();
+    
     const data = new FormData(form)
 
     // user's chatstripe
@@ -87,7 +87,7 @@ const handleSubmit = async (e) => {
 
     // bot's chatstripe
     const uniqueId = generateUniqueId()
-    chatContainer.innerHTML += chatStripe(true, " ", uniqueId, sessionId)
+    chatContainer.innerHTML += chatStripe(true, " ", uniqueId)
 
     // to focus scroll to the bottom 
     chatContainer.scrollTop = chatContainer.scrollHeight;
