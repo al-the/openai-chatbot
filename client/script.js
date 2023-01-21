@@ -1,8 +1,8 @@
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 
-const form = document.querySelector('form');
-const chatContainer = document.querySelector('#chat_container');
+const form = document.querySelector('form')
+const chatContainer = document.querySelector('#chat_container')
 
 let loadInterval
 
@@ -93,7 +93,6 @@ const handleSubmit = async (e) => {
         },
         body: JSON.stringify({
             prompt: data.get('prompt')
-            
         })
     })
 
@@ -101,21 +100,11 @@ const handleSubmit = async (e) => {
     messageDiv.innerHTML = " "
 
     if (response.ok) {
-        const data = await response.json(); 
+        const data = await response.json();
         const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
 
-        // check which model you are requesting
-        let model = req.body.model;
-        let language;
-        if(model === "text-davinci-003"){
-            typeText(messageDiv, parsedData)
-        }else if(model === "code-davinci-002"){
-            language = req.body.language;
-            messageDiv.innerHTML = `<pre><code class="language-${language}">${parsedData}</code></pre>`;
-            Prism.highlightElement(messageDiv.querySelector('code')); // Highlight the received code using Prism.js
-        }
-
-    }  else  {
+        typeText(messageDiv, parsedData)
+    } else {
         const err = await response.text()
 
         messageDiv.innerHTML = "Something went wrong"
@@ -129,4 +118,3 @@ form.addEventListener('keyup', (e) => {
         handleSubmit(e)
     }
 })
-
