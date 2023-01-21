@@ -40,9 +40,9 @@ function generateUniqueId() {
     const timestamp = Date.now();
     const randomNumber = Math.random();
     const hexadecimalString = randomNumber.toString(16);
-    const sessionId = getSessionId(); // function to retrieve the current session's id
+    //const sessionId = getSessionId(); // function to retrieve the current session's id
 
-    return `id-${timestamp}-${hexadecimalString}-${sessionId}`;
+    return `id-${timestamp}-${hexadecimalString}`;
 }
 
 //also could use `crypto.getRandomValues` to create cryptographically secure random number
