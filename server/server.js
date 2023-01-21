@@ -24,28 +24,17 @@ app.get('/', async(req,res) => {
 app.post('/', async(req,res) => {
     try{
         const prompt = req.body.prompt;
-        let model = req.body.model; 
-        if(model === "text-davinci"){
-          var response = await openai.createCompletion({
-              model: "text-davinci-003",
-              prompt: `${prompt}`, 
-              temperature: 0, 
-              max_tokens: 3000, 
-              top_p: 1, 
-              frequency_penalty: 0.5, 
-              presence_penalty: 0,
-          });
-        }else if(model === "code-davinci"){
-          var response = await openai.createCompletion({
-              model: "code-davinci-002",
-              prompt: `${prompt}`, 
-              temperature: 0, 
-              max_tokens: 3000, 
-              top_p: 1, 
-              frequency_penalty: 0.5, 
-              presence_penalty: 0,
-          });
-        }
+
+        const response = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: `${prompt}`, 
+            temperature: 0, 
+            max_tokens: 3000, 
+            top_p: 1, 
+            frequency_penalty: 0.5, 
+            presence_penalty: 0,
+        });
+
         res.status(200).send({
             bot: response.data.choices[0].text
         })
@@ -54,6 +43,5 @@ app.post('/', async(req,res) => {
         res.status(500).send({ error })
     }
 })
-
 
 app.listen(5000, () => console.log ('Server is running on port http://localhost:5000'));
