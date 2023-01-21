@@ -1,3 +1,4 @@
+import Prism from 'prismjs'; // Import Prism.js
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 
@@ -101,11 +102,20 @@ const handleSubmit = async (e) => {
     messageDiv.innerHTML = " "
 
     if (response.ok) {
-        const data = await response.json();
+        const data = await response.json(); 
         const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
 
-        typeText(messageDiv, parsedData)
-    } else {
+        // check which model you are requesting
+        let model = req.body.model;
+        let language;
+        if(model === "text-davinci-003"){
+            typeText(messageDiv, parsedData)
+        }else if(model === "code-davinci-002"){
+            messageDiv.innerHTML = `<pre><code class="language-${language}">${parsedData}</code></pre>`;
+            Prism.highlightElement(messageDiv.querySelector('code')); // Highlight the received code using Prism.js
+        }
+
+    }  else  {
         const err = await response.text()
 
         messageDiv.innerHTML = "Something went wrong"
@@ -120,31 +130,3 @@ form.addEventListener('keyup', (e) => {
     }
 })
 
-//add syntax highlighting
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const data = new FormData(form);
-  const response = await fetch("https://chatbox-lh9s.onrender.com", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt: data.get("prompt"),
-    }),
-  });
-  if (response.ok) {
-    const data = await response.json();
-    const chatContainer = document.createElement("pre");
-    const codeElement = document.createElement("code");
-    codeElement.textContent = data.bot;
-    codeElement.classList.add(data.language);
-    codeContainer.appendChild(codeElement);
-    chatContainer.appendChild(codeContainer);
-    Prism.highlightElement(codeElement);
-  } else {
-    const err = await response.text();
-    
-    alert(err);
-  }
-});
