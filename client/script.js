@@ -33,17 +33,28 @@ function typeText(element, text) {
     }, 20)
 }
 
-// generate unique ID for session
-// necessary for typing text effect for that specific session on API request
+// generate unique ID for each bot's message
+// necessary for typing text effect for that specific timestamp or API request session
 // without unique ID, typing text will work on every element
+function generateUniqueId() {
+    const timestamp = Date.now();
+    const randomNumber = Math.random();
+    const hexadecimalString = randomNumber.toString(16);
+    const sessionId = getSessionId(); // function to retrieve the current session's id
+
+    return `id-${timestamp}-${hexadecimalString}-${sessionId}`;
+}
+
+//also could use `crypto.getRandomValues` to create cryptographically secure random number
 //function generateUniqueId() {
-//    const timestamp = Date.now();
-//    const randomNumber = Math.random();
-//    const hexadecimalString = randomNumber.toString(16);
+ //   const timestamp = Date.now();
+ //   const array = new Uint32Array(1);
+ //   window.crypto.getRandomValues(array);
+ //   const sessionId = getSessionId();
 
-//    return `id-${timestamp}-${hexadecimalString}`; }
+ //   return `id-${timestamp}-${array[0]}-${sessionId}`;}
 
-// remove comment syntax to apply
+
 
 function chatStripe(isAi, value, uniqueId) {
     return (
@@ -65,8 +76,6 @@ function chatStripe(isAi, value, uniqueId) {
 
 const handleSubmit = async (e) => {
     e.preventDefault()
-    // generate unique session_id 
-    const session_id = generateUniqueId() //delete this if using timestamp based uniqueID
 
     const data = new FormData(form)
 
