@@ -1,4 +1,4 @@
-import Prism from 'prismjs'; // Import Prism.js
+import Prism from './prism.js'; // Import Prism.js
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 
